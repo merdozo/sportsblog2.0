@@ -1,14 +1,8 @@
-<?php 
+<?php
 
 session_start();
 require('connect.php');
 
-function dd($value) //silinecek
-{
-    echo "<pre>", print_r($value, true), "</pre>";
-    die();
-
-}
 
 function executeQuery($sql, $data)
 {
@@ -33,7 +27,7 @@ function selectAll($table, $conditions = [])
         $stmt->execute();
         $records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $records;
-        } 
+        }
     else {
 
         $i = 0;
@@ -52,7 +46,7 @@ function selectAll($table, $conditions = [])
         return $records;
 
     }
-    
+
 
 }
 
@@ -71,12 +65,12 @@ function selectOne($table, $conditions)
             }
             $i++;
         }
-        
+
         $sql = $sql . " LIMIT 1";
         $stmt = executeQuery($sql, $conditions);
         $records = $stmt->get_result()->fetch_assoc();
         return $records;
-    
+
 
 }
 
@@ -95,7 +89,7 @@ function create($table, $data)
         }
         $i++;
     }
-        
+
     $stmt = executeQuery($sql, $data);
     $id = $stmt->insert_id;
     return $id;
@@ -148,9 +142,9 @@ function getPublishedPosts()
     return $records;
 }
 
-function getPostsByTopicIs($topic_id)
+function getPostsByTopicId($topic_id)
 {
-    
+
     global $conn;
     $sql = "SELECT p.*, u.username FROM posts AS p JOIN users AS u ON p.user_id=u.id WHERE p.published=? AND topic_id=?";
 
@@ -164,7 +158,7 @@ function searchPosts($term)
     $match = '%' . $term . '%';
     global $conn;
     $sql = "SELECT
-                p.*, u.username 
+                p.*, u.username
                 FROM posts AS p
                 JOIN users AS u
                 ON p.user_id=u.id

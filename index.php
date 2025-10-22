@@ -1,15 +1,16 @@
 <?php
 include("path.php");
 include(ROOT_PATH . "/app/controllers/topics.php");
+include(ROOT_PATH . "/app/helpers/language.php");
 
 $posts = array();
 $postsTitle = 'Recent Posts';
 
 if (isset($_GET['t_id'])) {
     $posts = getPostsByTopicId($_GET['t_id']);
-    $postsTitle = "Aşağıdaki gönderileri aradınız '" . $_GET['name'] . "'";
+    $postsTitle = str_replace('{searchTerm}', $_GET['name'], $lang['index_search_title']);
 } else if (isset($_POST['search-term'])) {
-    $postsTitle = "Aradığınız '" . $_POST['search-term'] . "'";
+    $postsTitle = str_replace('{searchTerm}', $_POST['search-term'], $lang['index_search_title_no_term']);
     $posts = searchPosts($_POST['search-term']);
 } else {
     $posts = getPublishedPosts();
@@ -53,9 +54,9 @@ if (isset($_GET['t_id'])) {
                     <div class="post-info">
                         <h4><a href="single.php?id=<?php echo $post['id']; ?>"><?php echo $post['title']; ?></a></h4>
                         <i class="far fa-user"><?php echo $post['username']; ?></i>
-                        &nbsp; 
+                        &nbsp;
                         <i class="far fa-calendar"> <?php echo date('F j, Y', strtotime($post['created_at'])); ?></i>
-                        
+
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -90,7 +91,7 @@ if (isset($_GET['t_id'])) {
                 </div>
             </div>
             <?php endforeach; ?>
-            
+
         </div>
             <!-- // Main Content -->
 
@@ -126,10 +127,10 @@ if (isset($_GET['t_id'])) {
     <?php include(ROOT_PATH . "/app/includes/footer.php"); ?>
 
     <!-- JQuery -->
-    <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
-        crossorigin="anonymous" 
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous"
         referrerpolicy="no-referrer">
     </script>
 
